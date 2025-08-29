@@ -1,7 +1,12 @@
+
 <?php
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/login', function () {
+    return view('login');
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,15 +23,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/clicked', function () {
-    return '<h1>Hello World</h1>';
-});
-
-Route::get('/test', function () {
-    return view('test');
-});
-
-require __DIR__.'/auth.php';
 
 Route::get('/clicked', function () {
     return '<h1>Hello World</h1>';
@@ -36,4 +32,4 @@ Route::get('/test', function () {
     return view('test');
 });
 
-require __DIR__.'/auth.php';
+//require __DIR__.'/auth.php';
