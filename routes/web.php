@@ -4,12 +4,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/login', function () {
-    return view('login');
-});
-
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 Route::get('/dashboard', function () {
@@ -32,4 +28,4 @@ Route::get('/test', function () {
     return view('test');
 });
 
-//require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
