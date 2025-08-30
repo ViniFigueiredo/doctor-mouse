@@ -11,7 +11,7 @@
     <div class="container">
         <div class="login-box">
             <div class="logo">
-                <img src="/login/img/logo.svg" alt="Doctor Mouse" class="logo-img">
+                <img src="/login/img/logo.png" alt="Doctor Mouse" class="logo-img">
                 <div class="logo-text">
                     <span class="logo-title">Doctor Mouse</span>
                     <span class="logo-subtitle">Gaming Store</span>
