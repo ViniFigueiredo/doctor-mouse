@@ -1,8 +1,12 @@
-<div id="parent-div">
+@extends('layouts.base')
 
+<div id="parent-div">
+    @section('title')
+        Doctor Mouse - Teste
+    @endsection
 </div>
 
-<button hx-post="/clicked"
+<button hx-get="/clicked"
     hx-trigger="click"
     hx-target="#parent-div"
     hx-swap="outerHTML">
