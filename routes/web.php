@@ -13,7 +13,7 @@ Route::get('/signin', function () {
     return view('signin');
 });
 
-Route::post('signup', [SignUpController::class, 'store'])->name("signup");
+Route::post('/signup', [SignUpController::class, 'store'])->name("signup");
 
 Route::get('/register', function () {
     return view('register');

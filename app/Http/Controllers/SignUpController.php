@@ -13,7 +13,8 @@ class SignUpController extends Controller
         $campos = $request->all();
 
         Log::info($campos);
+        dd($campos);
 
-        return Response::to('/');
+        return redirect("/")->with("status", "Signed In!");
     }
 }
