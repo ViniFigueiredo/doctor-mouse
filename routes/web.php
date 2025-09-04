@@ -11,6 +11,10 @@ Route::get('/register', function () {
     return view('register');
 })->middleware(['auth', 'verified'])->name('register');
 
+Route::get('/recuperar-senha', function () {
+    return view('recuperar-senha');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

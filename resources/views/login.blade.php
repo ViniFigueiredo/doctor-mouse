@@ -31,11 +31,10 @@
                 <button type="submit" class="btn-login">ENTRAR</button>
             </form>
             <div class="links">
-                <a href="#" class="forgot">Recuperar Senha?</a>
+                <a href="/recuperar-senha" class="forgot">Recuperar Senha?</a>
                 <a href="/register" class="register">Criar Conta</a>
             </div>
         </div>
     </div>
-    <script src="/login/js/script.js"></script>
 </body>
 </html>
