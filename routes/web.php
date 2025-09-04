@@ -15,6 +15,18 @@ Route::get('/recuperar-senha', function () {
     return view('recuperar-senha');
 });
 
+        // Rota POST para processar envio do e-mail de recuperação
+        Route::post('/recuperar-senha', function (\Illuminate\Http\Request $request) {
+            // Aqui você pode implementar o envio do e-mail
+            // Exemplo: Mail::to($request->email)->send(new ResetPasswordMail(...));
+            return redirect('/recuperar-senha')->with('status', 'E-mail de recuperação enviado!');
+        });
+        
+        // Rota para tela de redefinição de senha
+        Route::get('/reset-password/{token}', function ($token) {
+            return view('reset-password', ['token' => $token]);
+        })->name('password.reset');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
