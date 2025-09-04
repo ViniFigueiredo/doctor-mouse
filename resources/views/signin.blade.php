@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Mouse - Login</title>
-</head>
-<body>
+@extends('layouts.base')
+
+@section('contents')
     <div class="container">
         <div class="login-box">
             <div class="logo">
@@ -37,5 +32,4 @@
         </div>
     </div>
     <script src="/login/js/script.js"></script>
-</body>
-</html>
+@endsection
