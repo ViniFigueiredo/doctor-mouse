@@ -1,48 +1,40 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
-class User extends Authenticatable
+class UserController extends Controller
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    // Mostrar formulário de registro
+    public function create()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return view('register');
+    }
+
+    // Salvar usuário no banco
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'cpf'      => 'required|string|max:14|unique:users,cpf',
+            'phone'    => 'nullable|string|max:20',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'cpf'      => $request->cpf,
+            'phone'    => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Após cadastro, redireciona para o login
+        return redirect()->route('signin')
+                         ->with('success', 'Cadastro realizado com sucesso! Faça login.');
     }
 }
