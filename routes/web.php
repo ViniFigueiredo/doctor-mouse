@@ -1,6 +1,10 @@
 
 <?php
 
+use App\Http\Controllers\ProdutoController;
+
+Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.index');
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SignUpController;
 use Illuminate\Support\Facades\Route;
