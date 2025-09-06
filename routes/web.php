@@ -3,28 +3,29 @@
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\SignUpController;
 use Illuminate\Support\Facades\Route;
 
+
+
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
 
 // Auth / Sign In / Sign Up
 Route::get('/signin', function () {
     return view('signin');
 })->name('signin');
 
-
+// Registrar usuário
+// Rota para mostrar o formulário de registro
+Route::get('/register', [SignUpController::class, 'create'])->name('register');
 Route::post('/signup', [SignUpController::class, 'store'])->name('signup');
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
-
 // Recuperação de senha
 Route::get('/recuperar-senha', function () {
     return view('recuperar-senha');
 });
 Route::post('/recuperar-senha', function (\Illuminate\Http\Request $request) {
-    // enviar e-mail de recuperação
     return redirect('/recuperar-senha')->with('status', 'E-mail de recuperação enviado!');
 });
 Route::get('/reset-password/{token}', function ($token) {
@@ -44,7 +45,7 @@ Route::get('/clicked', function () {
 });
 Route::get('/test', function () {
     return view('test');
-});
+})->name('test');
 
 // Produtos
 Route::resource('produtos', ProdutoController::class);

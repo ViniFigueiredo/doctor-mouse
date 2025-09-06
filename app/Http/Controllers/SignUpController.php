@@ -5,36 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class SignUpController extends Controller
 {
+    // Exibir formulário de registro
+    public function create()
+    {
+        return view('register');
+    }
+
+    // Armazenar usuário no banco e logar automaticamente
     public function store(Request $request)
-{
-    // Validação
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'cpf' => 'required|string|max:14|unique:users,cpf',
-        'phone' => 'nullable|string|max:20',
-        'password' => 'required|string|min:6|confirmed',
-    ]);
+    {
+        // Validação
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'cpf'      => 'required|string|max:14|unique:users,cpf',
+            'phone'    => 'nullable|string|max:20',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
 
-    // Criar usuário
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'cpf' => $request->cpf,
-        'phone' => $request->phone,
-        'password' => bcrypt($request->password),
-    ]);
+        // Criar usuário
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'cpf'      => $request->cpf,
+            'phone'    => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
 
-    // Testar se foi salvo no banco
-    dd('cheguei aqui');
+        // Logar automaticamente
+        Auth::login($user);
 
-    // Logar o usuário (essa parte só funciona quando tirar o dd)
-    Auth::login($user);
-
-    return redirect()->route('dashboard')->with('success', 'Cadastro realizado com sucesso!');
-}
-
+        // Redirecionar para a página inicial (dashboard)
+        return redirect()->route('dashboard')->with('success', 'Cadastro realizado com sucesso!');
+    }
 }

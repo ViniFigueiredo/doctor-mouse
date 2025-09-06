@@ -1,40 +1,40 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class UserController extends Controller
+class User extends Authenticatable
 {
-    // Mostrar formulário de registro
-    public function create()
-    {
-        return view('register');
-    }
+    use HasFactory, Notifiable;
 
-    // Salvar usuário no banco
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'cpf'      => 'required|string|max:14|unique:users,cpf',
-            'phone'    => 'nullable|string|max:20',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+    /**
+     * Campos que podem ser preenchidos em massa.
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'cpf',
+        'phone',
+    ];
 
-        User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'cpf'      => $request->cpf,
-            'phone'    => $request->phone,
-            'password' => Hash::make($request->password),
-        ]);
+    /**
+     * Campos ocultos na serialização.
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-        // Após cadastro, redireciona para o login
-        return redirect()->route('signin')
-                         ->with('success', 'Cadastro realizado com sucesso! Faça login.');
-    }
+    /**
+     * Conversão automática de atributos.
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed', // faz o hash automaticamente ao criar/atualizar
+    ];
 }
