@@ -20,7 +20,7 @@ class SignUpController extends Controller
             'phone' => 'required|string|max:15',
             'password' => 'required|string|min:8|confirmed',
         ]);
- $user = User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'cpf' => $request->cpf,
