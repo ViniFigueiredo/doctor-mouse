@@ -1,15 +1,13 @@
-
 <?php
 
 use App\Http\Controllers\ProdutoController;
-
-Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.index');
-
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SignUpController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PedidoController; // 
+use Illuminate\Support\Facades\Route;
 
+Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.index');
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -60,22 +58,20 @@ Route::get('/recuperar-senha', function () {
     return view('recuperar-senha');
 });
 
-        // Rota POST para processar envio do e-mail de recuperação
-        Route::post('/recuperar-senha', function (\Illuminate\Http\Request $request) {
-            // Aqui você pode implementar o envio do e-mail
-            // Exemplo: Mail::to($request->email)->send(new ResetPasswordMail(...));
-            return redirect('/reset-password')->with('status', 'E-mail de recuperação enviado!');
-        });
-        
-        // Rota para tela de redefinição de senha
-        Route::get('/reset-password/{token}', function ($token) {
-            return view('reset-password', ['token' => $token]);
-        })->name('password.reset');
-        
-        // Rota para mostrar tela de reset-password sem token
-        Route::get('/reset-password', function () {
-            return view('reset-password', ['token' => '']);
-        });
+// Rota POST para processar envio do e-mail de recuperação
+Route::post('/recuperar-senha', function (\Illuminate\Http\Request $request) {
+    return redirect('/reset-password')->with('status', 'E-mail de recuperação enviado!');
+});
+
+// Rota para tela de redefinição de senha
+Route::get('/reset-password/{token}', function ($token) {
+    return view('reset-password', ['token' => $token]);
+})->name('password.reset');
+
+// Rota para mostrar tela de reset-password sem token
+Route::get('/reset-password', function () {
+    return view('reset-password', ['token' => '']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -90,6 +86,7 @@ Route::middleware('auth')->group(function () {
         return redirect('/signin');
     });
 });
+
 Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
@@ -97,9 +94,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('produtos', ProdutoController::class);
-
-
-
+Route::resource('pedidos', PedidoController::class); // <-- Adicionei aqui
 
 Route::get('/clicked', function () {
     return '<h1>Hello World</h1>';
