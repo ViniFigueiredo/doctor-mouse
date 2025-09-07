@@ -8,10 +8,10 @@ Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.ind
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SignUpController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
-Route::get('/', function () {
-    return view('dashboard');
-});
+
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/signin', function () {
     return view('signin');
@@ -55,7 +55,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-
+Route::resource('produtos', ProdutoController::class);
 
 
 
