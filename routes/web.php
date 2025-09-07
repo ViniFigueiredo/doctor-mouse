@@ -15,9 +15,12 @@ Route::get('/', function () {
 
 Route::get('/signin', function () {
     return view('signin');
-});
+})->name('signin');
 
 Route::post('/signup', [SignUpController::class, 'store'])->name("signup");
+Route::get('/signup', function () {
+    return view('signup');
+})->name('signup');
 
 Route::get('/register', function () {
     return view('register');

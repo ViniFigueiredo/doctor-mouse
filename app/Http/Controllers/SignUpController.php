@@ -29,6 +29,6 @@ class SignUpController extends Controller
             'role' => 'cliente',
         ]);
         // Log::info('User registered: ', $request->all());
-        return redirect("/")->with('status', 'Cadastro realizado com sucesso! Por favor, faça login.');
+        return redirect()->route('signin')->with('status', 'Cadastro realizado com sucesso! Por favor, faça login.');
     }
 }
