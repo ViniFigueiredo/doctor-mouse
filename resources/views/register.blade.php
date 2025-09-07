@@ -16,7 +16,7 @@
                 
                 <span>Gaming Store</span>
             </div>
-            <form method="POST" action="{{ route('signup') }}">
+            <form method="POST" action="{{route('register.store')}}">
                 @csrf
 
                     <label for="name">Nome completo <span class="text-red-500">*</span></label>

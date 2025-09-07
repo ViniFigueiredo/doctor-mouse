@@ -20,6 +20,7 @@ class User extends Authenticatable
         'password',
         'cpf',
         'phone',
+        'role', // Adicionado o campo role
     ];
 
     /**

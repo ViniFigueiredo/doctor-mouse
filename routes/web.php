@@ -4,10 +4,9 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\SignUpController;
 use Illuminate\Support\Facades\Route;
-
-
+use App\Http\Controllers\Auth\SignUpController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -19,8 +18,8 @@ Route::get('/signin', function () {
 
 // Registrar usuário
 // Rota para mostrar o formulário de registro
-Route::get('/register', [SignUpController::class, 'create'])->name('register');
-Route::post('/signup', [SignUpController::class, 'store'])->name('signup');
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
 // Recuperação de senha
 Route::get('/recuperar-senha', function () {
     return view('recuperar-senha');

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth; // ✅ Corrigido
 
+use App\Http\Controllers\Controller; // ✅ Sempre estenda de Controller
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,7 @@ class SignUpController extends Controller
     // Exibir formulário de registro
     public function create()
     {
-        return view('register');
+        return view('auth.register'); // ✅ Certifique-se que esse arquivo existe
     }
 
     // Armazenar usuário no banco e logar automaticamente
@@ -34,6 +35,7 @@ class SignUpController extends Controller
             'cpf'      => $request->cpf,
             'phone'    => $request->phone,
             'password' => Hash::make($request->password),
+            'role'     => 'cliente', // Definindo o papel padrão como "cliente"
         ]);
 
         // Logar automaticamente
