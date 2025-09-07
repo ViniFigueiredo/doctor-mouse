@@ -1,3 +1,4 @@
+
 @extends('layouts.base')
 
 @section("head")
@@ -16,7 +17,7 @@
                 
                 <span>Gaming Store</span>
             </div>
-            <form method="POST" action="{{route('register.store')}}">
+            <form method="POST" action="{{route('signup')}}" class="flex flex-col gap-4 mt-4">
                 @csrf
 
                     <label for="name">Nome completo <span class="text-red-500">*</span></label>

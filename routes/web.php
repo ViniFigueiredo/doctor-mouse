@@ -18,8 +18,8 @@ Route::get('/signin', function () {
 
 // Registrar usuário
 // Rota para mostrar o formulário de registro
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
+//Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store'])->name('signup');
 // Recuperação de senha
 Route::get('/recuperar-senha', function () {
     return view('recuperar-senha');
