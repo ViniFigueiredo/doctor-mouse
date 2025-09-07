@@ -29,7 +29,21 @@
                 {{ session('status') }}
             </div>
         @endif
-        <form method="POST" action="#">
+        
+        @if(session('error'))
+            <div style="text-align:center; color:red; margin-bottom:18px; font-size:1em;">
+                {{ session('error') }}
+            </div>
+        @endif
+        
+        @if($errors->any())
+            <div style="text-align:center; color:red; margin-bottom:18px; font-size:1em;">
+                @foreach($errors->all() as $error)
+                    {{ $error }}<br>
+                @endforeach
+            </div>
+        @endif
+        <form method="POST" action="{{ route('password.email') }}">
             @csrf
             <label for="email">E-mail</label>
             <div class="input-group">

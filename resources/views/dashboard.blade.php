@@ -16,12 +16,21 @@
 
     <ul class="flex gap-8 font-medium">
         <li>
-            <a href="{{ url('/') }}" class="transition flex flex-col items-center {{ request()->is('/') ? 'text-primary font-bold' : '' }}">
-                Home
-                @if(request()->is('/'))
-                    <span class="block w-8 h-1 bg-primary rounded-full mt-1"></span>
-                @endif
-            </a>
+            @guest
+                <a href="/signin" class="transition flex flex-col items-center {{ request()->is('signin') ? 'text-primary font-bold' : '' }}">
+                    Home
+                    @if(request()->is('signin'))
+                        <span class="block w-8 h-1 bg-primary rounded-full mt-1"></span>
+                    @endif
+                </a>
+            @else
+                <a href="{{ url('/') }}" class="transition flex flex-col items-center {{ request()->is('/') ? 'text-primary font-bold' : '' }}">
+                    Home
+                    @if(request()->is('/'))
+                        <span class="block w-8 h-1 bg-primary rounded-full mt-1"></span>
+                    @endif
+                </a>
+            @endguest
         </li>
         <li>
             <a href="{{ route('produtos.index') }}" class="transition flex flex-col items-center {{ request()->routeIs('produtos.index') ? 'text-primary font-bold' : '' }}">
@@ -43,13 +52,22 @@
         @guest
             <a href="/signin" title="Login"><i class="fa fa-user-circle hover:text-primary transition"></i></a>
         @else
-            <a href="#" title="Perfil"><i class="fa fa-user-circle hover:text-primary transition"></i></a>
+            <a href="{{ route('profile.edit') }}" title="Perfil"><i class="fa fa-user-circle hover:text-primary transition"></i></a>
             <form action="{{ route('logout') }}" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="hover:text-primary transition">
                     <i class="fa fa-sign-out"></i>
                 </button>
             </form>
+        @endguest
+    </div>
+    
+    {{-- Debug: mostrar status de autenticação --}}
+    <div style="position: fixed; top: 10px; right: 10px; background: #000; color: #fff; padding: 5px; font-size: 12px; z-index: 9999;">
+        @guest
+            NÃO LOGADO
+        @else
+            LOGADO: {{ Auth::user()->email }} ({{ Auth::user()->role }})
         @endguest
     </div>
 </div>

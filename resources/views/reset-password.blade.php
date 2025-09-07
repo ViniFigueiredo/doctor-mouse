@@ -24,10 +24,31 @@
             </div>
             <h2 style="text-align:center; font-weight:bold; font-family:'Roboto', Arial, sans-serif;">REDEFINIR SENHA</h2>
             <div style="text-align:center; margin-bottom:18px; color:#555; font-size:1em;">Digite sua nova senha abaixo.</div>
-            <form method="POST" action="{{ route('password.update') }}">
+            
+            @if(session('status'))
+                <div style="text-align:center; color:green; margin-bottom:18px; font-size:1em;">
+                    {{ session('status') }}
+                </div>
+            @endif
+            
+            @if($errors->any())
+                <div style="text-align:center; color:red; margin-bottom:18px; font-size:1em;">
+                    @foreach($errors->all() as $error)
+                        {{ $error }}<br>
+                    @endforeach
+                </div>
+            @endif
+            <form method="POST" action="{{ route('password.store') }}">
                 @csrf
                 <input type="hidden" name="token" value="{{ $token ?? '' }}">
-                <label for="password">Nova Senha</label>
+                
+                <label for="email">E-mail</label>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fa fa-envelope"></i></span>
+                    <input type="email" id="email" name="email" placeholder="E-mail" required>
+                </div>
+                
+                <label for="password" style="margin-top:12px;">Nova Senha</label>
                 <div class="input-group">
                     <span class="input-icon"><i class="fa fa-lock"></i></span>
                     <input type="password" id="password" name="password" placeholder="Nova Senha" required>
@@ -38,7 +59,7 @@
                     <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirmar Nova Senha" required>
                 </div>
                 <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <a href="/login" class="btn-login" style="background: #e3342f; color: #fff; flex: 1; text-align: center; text-decoration: none; border-radius: 4px; padding: 10px 0; font-weight: bold;">CANCELAR</a>
+                    <a href="/recuperar-senha" class="btn-login" style="background: #e3342f; color: #fff; flex: 1; text-align: center; text-decoration: none; border-radius: 4px; padding: 10px 0; font-weight: bold;">CANCELAR</a>
                     <button type="submit" class="btn-login" style="background: #6847BB; color: #fff; flex: 1;">SALVAR</button>
                 </div>
             </form>

@@ -20,6 +20,8 @@ class AdminUserSeeder extends Seeder
             User::create([
                 'name'     => 'Administrador',
                 'email'    => 'admin@gmail.com',
+                'cpf'      => '000.000.000-00',
+                'phone'    => '(00) 00000-0000',
                 'password' => Hash::make('admin123'), // senha padrão
                 'role'     => 'admin', // papel de administrador
             ]);

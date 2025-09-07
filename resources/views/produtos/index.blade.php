@@ -14,7 +14,11 @@
         <div class="flex-1 flex justify-center">
             <ul class="flex gap-8 font-medium">
                 <li>
-                    <a href="/" class="transition flex flex-col items-center">Home</a>
+                    @guest
+                        <a href="/signin" class="transition flex flex-col items-center">Home</a>
+                    @else
+                        <a href="/" class="transition flex flex-col items-center">Home</a>
+                    @endguest
                 </li>
                 <li>
                     <a href="{{ route('produtos.index') }}" class="transition flex flex-col items-center text-primary">
