@@ -81,6 +81,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Rota GET para logout (caso queira acessar diretamente)
+    Route::get('/logout', function () {
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/signin');
+    });
 });
 Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', function () {

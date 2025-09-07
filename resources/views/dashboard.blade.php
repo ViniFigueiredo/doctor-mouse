@@ -61,15 +61,6 @@
             </form>
         @endguest
     </div>
-    
-    {{-- Debug: mostrar status de autenticação --}}
-    <div style="position: fixed; top: 10px; right: 10px; background: #000; color: #fff; padding: 5px; font-size: 12px; z-index: 9999;">
-        @guest
-            NÃO LOGADO
-        @else
-            LOGADO: {{ Auth::user()->email }} ({{ Auth::user()->role }})
-        @endguest
-    </div>
 </div>
 
 {{-- Hero Section --}}

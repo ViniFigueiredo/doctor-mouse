@@ -17,12 +17,24 @@
                 <span class="text-gray-500 text-xs -mt-1">Admin Dashboard</span>
             </div>
         </div>
-        <div class="flex gap-4 text-lg text-gray-700">
-            <a href="{{ route('dashboard') }}" title="Home"><i class="fa fa-home hover:text-primary transition"></i></a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"><i class="fa fa-sign-out hover:text-red-600 transition"></i></button>
-            </form>
+        
+        {{-- Informações do usuário e logout --}}
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 text-gray-700">
+                <i class="fa fa-user-circle text-lg"></i>
+                <span class="font-medium">{{ Auth::user()->name }} ({{ Auth::user()->role }})</span>
+            </div>
+            <div class="flex gap-4 text-lg text-gray-700">
+                <a href="{{ route('dashboard') }}" title="Home" class="hover:text-primary transition">
+                    <i class="fa fa-home"></i>
+                </a>
+                <form method="POST" action="{{ route('logout') }}" class="inline">
+                    @csrf
+                    <button type="submit" title="Sair" class="hover:text-red-600 transition">
+                        <i class="fa fa-sign-out"></i>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
