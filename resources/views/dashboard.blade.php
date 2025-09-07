@@ -16,8 +16,7 @@
 
     <ul class="flex gap-8 font-medium">
         <li>
-            <a href="{{ url('/') }}" 
-               class="transition flex flex-col items-center {{ request()->is('/') ? 'text-primary font-bold' : '' }}">
+            <a href="{{ url('/') }}" class="transition flex flex-col items-center {{ request()->is('/') ? 'text-primary font-bold' : '' }}">
                 Home
                 @if(request()->is('/'))
                     <span class="block w-8 h-1 bg-primary rounded-full mt-1"></span>
@@ -25,8 +24,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('produtos.index') }}" 
-               class="transition flex flex-col items-center {{ request()->routeIs('produtos.index') ? 'text-primary font-bold' : '' }}">
+            <a href="{{ route('produtos.index') }}" class="transition flex flex-col items-center {{ request()->routeIs('produtos.index') ? 'text-primary font-bold' : '' }}">
                 Produtos
                 @if(request()->routeIs('produtos.index'))
                     <span class="block w-12 h-1 bg-primary rounded-full mt-1"></span>
@@ -68,17 +66,17 @@
 </div>
 
 {{-- Produtos em Destaque --}}
-<div class="py-12 text-center">
+<div class="py-12 text-center px-6">
     <h2 class="text-2xl font-bold mb-2">Produtos em Destaque</h2>
     <p class="mb-6 text-gray-600">Os equipamentos mais desejados pelos gamers</p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         @forelse($produtos as $produto)
             <div class="bg-white border border-gray-200 rounded-xl shadow p-6 flex flex-col items-center">
                 <img src="{{ $produto->imagem ?? '/imagens/default.png' }}" alt="{{ $produto->nome }}" class="w-full h-40 object-contain mb-3 rounded">
                 <span class="block font-semibold">{{ $produto->nome }}</span>
                 <span class="block text-primary">R$ {{ number_format($produto->preco, 2, ',', '.') }}</span>
-                <span class="block text-gray-500 text-sm mb-2">Estoque: {{ $produto->estoque }}</span>
+                <span class="block text-gray-500 text-sm mb-2">Estoque: {{ $produto->quantidade }}</span>
                 <a href="{{ route('produtos.show', $produto->id) }}" class="block bg-primary hover:bg-purple-800 text-white py-2 rounded font-bold transition w-full">
                     Ver Produto
                 </a>

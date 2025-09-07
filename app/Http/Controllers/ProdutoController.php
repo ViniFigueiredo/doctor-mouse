@@ -36,10 +36,7 @@ class ProdutoController extends Controller
     }
 
     // Mostrar um produto específico
-    public function show(Produto $produto)
-    {
-        return view('produtos.show', compact('produto'));
-    }
+    
 
     // Formulário para editar produto
     public function edit(Produto $produto)
