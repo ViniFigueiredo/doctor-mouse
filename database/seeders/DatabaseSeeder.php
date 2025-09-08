@@ -1,27 +1,17 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Seeder;
 
-class UserFactory extends Factory
+class DatabaseSeeder extends Seeder
 {
-    protected $model = User::class;
-
-    public function definition()
+    public function run(): void
     {
-        return [
-            'name'              => $this->faker->name(),
-            'email'             => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password'          => Hash::make('senha123'), // senha padrão
-            'remember_token'    => Str::random(10),
-            'cpf'               => $this->faker->numerify('###########'), // 11 dígitos
-            'phone'             => $this->faker->phoneNumber(),
-            'role'              => 'clinte', // padrão 'cliente', pode ser 'admin'
-        ];
+        $this->call([
+            ProdutoSeeder::class,   // Seeder de produtos
+            AdminUserSeeder::class,     // Seeder de administradores
+
+        ]);
     }
 }
