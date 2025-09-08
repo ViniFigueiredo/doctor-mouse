@@ -6,9 +6,9 @@ use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PedidoController; // 
 use Illuminate\Support\Facades\Route;
-
-Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos.index');
-
+use App\Http\Controllers\SearchController;
+Route::get('/produtos', [SearchController::class, 'index'])->name('produtos.index');
+Route::get('/produtos/buscar', [SearchController::class, 'search'])->name('produtos.search');
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/signin', function () {
@@ -86,7 +86,7 @@ Route::middleware('auth')->group(function () {
         return redirect('/signin');
     });
 });
-
+//Rota admin dashboard
 Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');

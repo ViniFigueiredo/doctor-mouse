@@ -14,6 +14,7 @@ class ProdutoController extends Controller
         return view('produtos.index', compact('produtos'));
     }
 
+    
     // Formulário para criar produto
     public function create()
     {
