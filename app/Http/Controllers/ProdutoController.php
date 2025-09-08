@@ -12,6 +12,9 @@ class ProdutoController extends Controller
     {
         $produtos = Produto::all();
         return view('produtos.index', compact('produtos'));
+
+
+        
     }
 
     

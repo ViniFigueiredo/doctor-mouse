@@ -14,7 +14,14 @@ class Produto extends Model
         'descricao',
         'preco',
         'estoque',
-        'imagem'
+        'imagem',
+        'categoria',
+    ];
+
+    public const CATEGORIAS = [
+        'Mouse',
+        'MousePad',
+        'Teclado',
     ];
 }
 

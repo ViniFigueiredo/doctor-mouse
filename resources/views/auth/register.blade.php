@@ -50,7 +50,7 @@
                     <input class="p-0 border-none w-[95%] ml-2 outline-none focus:outline-none focus:ring-0 focus:border-transparent" type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirmar senha" required>
                 </div>
                 <div class="flex gap-1 mt-2">
-                        <a href="/signin" class="bg-red-600 text-white flex-1 text-center no-underline rounded px-0 py-2 font-bold">CANCELAR</a>
+                        <a href="{{ route('dashboard') }}" class="bg-red-600 text-white flex-1 text-center no-underline rounded px-0 py-2 font-bold">CANCELAR</a>
                         <button type="submit" class="bg-primary text-white flex-1 rounded px-0 py-2 font-bold">Criar conta</button>
                 </div>
             </form>

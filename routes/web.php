@@ -4,7 +4,7 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PedidoController; // 
+//use App\Http\Controllers\PedidoController; // 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 Route::get('/produtos', [SearchController::class, 'index'])->name('produtos.index');
@@ -58,6 +58,11 @@ Route::get('/recuperar-senha', function () {
     return view('recuperar-senha');
 });
 
+Route::get('/cart', function () {
+    return view('cart.cart'); // <-- pasta.cart
+})->name('cart');
+
+
 // Rota POST para processar envio do e-mail de recuperação
 Route::post('/recuperar-senha', function (\Illuminate\Http\Request $request) {
     return redirect('/reset-password')->with('status', 'E-mail de recuperação enviado!');
@@ -94,7 +99,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('produtos', ProdutoController::class);
-Route::resource('pedidos', PedidoController::class); // <-- Adicionei aqui
+//Route::resource('pedidos', PedidoController::class); // <-- Adicionei aqui
 
 Route::get('/clicked', function () {
     return '<h1>Hello World</h1>';
