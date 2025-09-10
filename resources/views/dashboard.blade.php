@@ -1,10 +1,10 @@
-@extends('layouts.base')
+@extends('layouts.app')
 
 @section('title', 'Doctor Mouse - Periféricos de alta performance')
 
 @section('contents')
+{{--
 
-{{-- Navbar --}}
 <div class="w-full bg-white border-b border-gray-200 py-3 px-6 flex items-center justify-between">
     <div class="flex items-center gap-3">
         <img src="/login/logo.png" alt="Doctor Mouse" class="w-10 h-10">
@@ -62,6 +62,8 @@
         @endguest
     </div>
 </div>
+--}}
+
 
 {{-- Hero Section --}}
 <div class="bg-primary text-white text-center py-16">

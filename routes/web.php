@@ -8,7 +8,7 @@ use App\Http\Controllers\DashboardController;
 //use App\Http\Controllers\PedidoController; // 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
-Route::get('/produtos', [SearchController::class, 'index'])->name('produtos.index');
+Route::get('/produtos', [SearchController::class, 'index']);
 Route::get('/produtos/buscar', [SearchController::class, 'search'])->name('produtos.search');
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 

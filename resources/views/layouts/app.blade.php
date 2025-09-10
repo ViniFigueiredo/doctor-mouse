@@ -13,13 +13,15 @@
             </div>
 
             <div class="flex-1 flex items-center justify-center space-x-10 font-medium whitespace-nowrap">
-                <a href="/" class="text-gray-800 hover:text-primary transition">Home</a>
-                <a href="{{ route('produtos.index') }}" class="text-gray-800 hover:text-primary transition">Produtos</a>
-                <a href="{{ route('dashboard') }}" 
-                   class="flex items-center gap-1 text-primary font-semibold border-b-2 border-primary pb-1">
-                    <i class="fa fa-th"></i>
-                    Dashboard Admin
-                </a>
+                <a href="/" class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs("dashboard.index") ? 'border-b-2' : ''}}">Home</a>
+                <a href="{{ route('produtos.index') }}" class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs('produtos.index') ? 'border-b-2' : ''}}">Produtos</a>
+                
+                @if(Auth::check() && Auth::user()->role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}" 
+                    class="flex items-center gap-1 border-primary pb-1 {{ Route::is("/admin") ? 'border-b-2' : ''}}">
+                        Dashboard Admin
+                    </a>
+                @endif
             </div>
 
             {{-- Direita: usuário --}}
