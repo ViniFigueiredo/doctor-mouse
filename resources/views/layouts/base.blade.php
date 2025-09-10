@@ -18,6 +18,8 @@
 <body>
     <div class="min-h-screen flex flex-col">
         <div class="flex-1 pb-[8vh]">
+            @yield("header")
+
             @if (isset($slot))
                 {{ $slot }}
             @endif

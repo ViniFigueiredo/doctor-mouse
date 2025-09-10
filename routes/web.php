@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SignUpController;
@@ -100,6 +101,8 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('produtos', ProdutoController::class);
 //Route::resource('pedidos', PedidoController::class); // <-- Adicionei aqui
+
+Route::get('/pedidos', [PedidosController::class, 'index'])->name('pedidos.index');
 
 Route::get('/clicked', function () {
     return '<h1>Hello World</h1>';
