@@ -13,7 +13,7 @@
             </div>
 
             <div class="flex-1 flex items-center justify-center space-x-10 font-medium whitespace-nowrap">
-                <a href="/" class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs("dashboard.index") ? 'border-b-2' : ''}}">Home</a>
+                <a href="/" class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs("dashboard.index") || request()->routeIs('dashboard') ? 'border-b-2' : ''}}">Home</a>
                 <a href="{{ route('produtos.index') }}" class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs('produtos.index') ? 'border-b-2' : ''}}">Produtos</a>
                 
                 @if(Auth::check() && Auth::user()->role === 'admin')
@@ -25,12 +25,28 @@
             </div>
 
             {{-- Direita: usuário --}}
-            <div class="ml-auto flex items-center gap-2">
-                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
-                    <i class="fa fa-user"></i>
+                
+        
+
+            
+            
+            @auth
+                <div class="ml-auto flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <span class="font-semibold text-gray-800">{{ Auth::user()->name }}</span>
+
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="hover:text-primary transition">
+                            <i class="fa fa-sign-out"></i>
+                        </button>
+                    </form>
                 </div>
-                <span class="font-semibold text-gray-800">{{ Auth::user()->name }}</span>
-            </div>
+            @else
+                <a href="/signin" title="Login"><i class="fa fa-user-circle hover:text-primary transition"></i></a>
+            @endguest
         </div>
     </nav>
 @endsection
