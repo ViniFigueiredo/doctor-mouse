@@ -21,7 +21,7 @@
             </div>
         @endif
 
-        <form action="{{ route('produtos.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('produtos.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
             <!-- Nome do Produto -->
@@ -61,9 +61,57 @@
                 @enderror
             </div>
 
+            <!-- Imagem -->
+            <div>
+                <label for="imagem" class="block text-sm font-medium text-gray-700 mb-2">
+                    Imagem do Produto <span class="text-red-500">*</span>
+                </label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-gray-400 transition-colors duration-200" id="upload-area">
+                    <div class="space-y-1 text-center" id="upload-content">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="flex text-sm text-gray-600">
+                            <label for="imagem" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                <span>Upload uma imagem</span>
+                                <input 
+                                    id="imagem" 
+                                    name="imagem" 
+                                    type="file" 
+                                    accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
+                                    required
+                                    class="sr-only"
+                                    onchange="previewImage(this)"
+                                >
+                            </label>
+                            <p class="pl-1">ou arraste e solte</p>
+                        </div>
+                        <p class="text-xs text-gray-500">
+                            PNG, JPG, GIF, SVG até 2MB
+                        </p>
+                    </div>
+                    <!-- Preview area (initially hidden) -->
+                    <div id="image-preview" class="hidden">
+                        <div class="relative">
+                            <img id="preview-img" src="" alt="Preview" class="max-w-full max-h-48 rounded-lg shadow-md">
+                            <button type="button" onclick="removeImage()" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors duration-200">
+                                <span class="text-sm">×</span>
+                            </button>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600 text-center" id="file-name"></p>
+                        <button type="button" onclick="changeImage()" class="mt-2 text-sm text-blue-600 hover:text-blue-500">
+                            Alterar imagem
+                        </button>
+                    </div>
+                </div>
+                @error('imagem')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Preço -->
             <div>
-                <label for="preco_display" class="block text-sm font-medium text-gray-700 mb-2">
+                <label for="preco" class="block text-sm font-medium text-gray-700 mb-2">
                     Preço (R$) <span class="text-red-500">*</span>
                 </label>
                 <div class="relative">
@@ -71,16 +119,18 @@
                         <span class="text-gray-500 sm:text-sm">R$</span>
                     </div>
                     <input 
-                        type="text" 
-                        id="preco_display" 
-                        value="{{ old('preco') ? number_format(old('preco') / 100, 2, ',', '.') : '' }}"
+                        type="number" 
+                        id="preco" 
+                        name="preco"
+                        value="{{ old('preco') }}"
                         required
+                        min="0"
+                        step="0.01"
                         class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('preco') border-red-500 @enderror"
-                        placeholder="0,00"
+                        placeholder="0.00"
                     >
-                    <input type="hidden" id="preco" name="preco" value="{{ old('preco', 0) }}">
                 </div>
-                <p class="mt-1 text-sm text-gray-500">Digite o preço em reais (ex: 29,90)</p>
+                <p class="mt-1 text-sm text-gray-500">Digite o preço em reais (ex: 29.90)</p>
                 @error('preco')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -127,51 +177,41 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const precoDisplay = document.getElementById('preco_display');
-    const precoHidden = document.getElementById('preco');
-
-    // Função para formatar o valor em reais
-    function formatCurrency(value) {
-        // Remove tudo que não é dígito
-        const numericValue = value.replace(/\D/g, '');
+function previewImage(input) {
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
         
-        if (numericValue === '') return '';
+        reader.onload = function(e) {
+            // Hide upload content and show preview
+            document.getElementById('upload-content').classList.add('hidden');
+            document.getElementById('image-preview').classList.remove('hidden');
+            
+            // Set preview image
+            document.getElementById('preview-img').src = e.target.result;
+            document.getElementById('file-name').textContent = file.name;
+        };
         
-        // Converte para número e divide por 100 para ter os centavos
-        const floatValue = parseInt(numericValue) / 100;
-        
-        // Formata com vírgula decimal e pontos de milhar
-        return floatValue.toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
+        reader.readAsDataURL(file);
     }
+}
 
-    // Função para converter para centavos
-    function toCents(formattedValue) {
-        if (!formattedValue) return 0;
-        
-        // Remove pontos de milhar e substitui vírgula por ponto
-        const cleanValue = formattedValue.replace(/\./g, '').replace(',', '.');
-        const floatValue = parseFloat(cleanValue);
-        
-        return Math.round(floatValue * 100);
-    }
+function removeImage() {
+    // Clear the file input
+    document.getElementById('imagem').value = '';
+    
+    // Hide preview and show upload content
+    document.getElementById('image-preview').classList.add('hidden');
+    document.getElementById('upload-content').classList.remove('hidden');
+    
+    // Clear preview
+    document.getElementById('preview-img').src = '';
+    document.getElementById('file-name').textContent = '';
+}
 
-    // Evento de input para formatar em tempo real
-    precoDisplay.addEventListener('input', function(e) {
-        const formatted = formatCurrency(e.target.value);
-        e.target.value = formatted;
-        precoHidden.value = toCents(formatted);
-    });
-
-    // Evento de blur para garantir formatação correta
-    precoDisplay.addEventListener('blur', function(e) {
-        const formatted = formatCurrency(e.target.value);
-        e.target.value = formatted;
-        precoHidden.value = toCents(formatted);
-    });
-});
+function changeImage() {
+    // Trigger file input click
+    document.getElementById('imagem').click();
+}
 </script>
 @endsection
