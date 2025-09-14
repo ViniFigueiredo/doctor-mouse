@@ -30,11 +30,23 @@ class ProdutoController extends Controller
         $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
-            'preco' => 'required|integer|min:0',
+            'preco' => 'required|numeric|min:0',
             'estoque' => 'required|integer|min:0',
+            'imagem' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        Produto::create($request->all());
+        $file_name = time() . '.' . request()->imagem->getClientOriginalExtension();
+        request()->imagem->move(public_path('images'), $file_name);
+
+        $produto = new Produto;
+
+        $produto->nome = $request->nome;
+        $produto->descricao = $request->descricao;
+        $produto->preco = $request->preco;
+        $produto->estoque = $request->estoque;
+        $produto->imagem = $file_name;
+
+        $produto->save();
 
         return redirect()->route('produtos.index')->with('success', 'Produto criado com sucesso!');
     }
@@ -54,11 +66,31 @@ class ProdutoController extends Controller
         $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
-            'preco' => 'required|integer|min:0',
+            'preco' => 'required|numeric|min:0',
             'estoque' => 'required|integer|min:0',
+            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        $produto->update($request->all());
+        // Handle image upload if provided
+        if ($request->hasFile('imagem')) {
+            // Delete old image if it exists
+            if ($produto->imagem && file_exists(public_path('images/' . $produto->imagem))) {
+                unlink(public_path('images/' . $produto->imagem));
+            }
+            
+            // Upload new image
+            $file_name = time() . '.' . $request->imagem->getClientOriginalExtension();
+            $request->imagem->move(public_path('images'), $file_name);
+            $produto->imagem = $file_name;
+        }
+
+        // Update other fields
+        $produto->nome = $request->nome;
+        $produto->descricao = $request->descricao;
+        $produto->preco = $request->preco;
+        $produto->estoque = $request->estoque;
+        
+        $produto->save();
 
         return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso!');
     }
@@ -71,7 +103,7 @@ class ProdutoController extends Controller
         return redirect()->route('produtos.index')->with('success', 'Produto removido com sucesso!');
     }
 
-    public function show(){
-        return view('produtos.show', []);
+    public function show(Produto $produto){
+        return view('produtos.show', compact('produto'));
     }
 }

@@ -35,7 +35,7 @@
         @forelse($produtos as $produto)
             <div class="bg-white border border-gray-200 rounded-xl shadow p-4 flex flex-col">
                 @if($produto->imagem)
-                    <img src="{{ asset('storage/' . $produto->imagem) }}" alt="{{ $produto->nome }}" class="w-full h-40 object-cover rounded mb-3">
+                    <img src="{{ asset('images/' . $produto->imagem) }}" alt="{{ $produto->nome }}" class="w-full h-40 object-cover rounded mb-3">
                 @else
                     <img src="/imagens/mouse.png" alt="{{ $produto->nome }}" class="w-full h-40 object-cover rounded mb-3">
                 @endif
