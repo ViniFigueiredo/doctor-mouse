@@ -36,8 +36,7 @@
         <div class="flex items-center gap-4 ml-auto">
             {{-- CARRINHO --}}
             @if(Auth::check() && count(session('cart', [])) > 0)
-                <a href="{{ route('cart.index') }}" 
-                   class="fa fa-shopping-cart text-black"">
+                <a href="{{ route('cart.index') }}" class="fa fa-shopping-cart text-black">
                     ({{ count(session('cart', [])) }})
                 </a>
             @endif

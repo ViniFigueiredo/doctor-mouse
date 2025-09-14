@@ -28,21 +28,29 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantidade']++;
+            // Verifica se ainda há estoque antes de incrementar
+            if ($cart[$id]['quantidade'] < $produto->estoque) {
+                $cart[$id]['quantidade']++;
+            } else {
+                return back()->with('error', 'Quantidade máxima em estoque atingida para este produto.');
+            }
         } else {
-            $cart[$id] = [
-                "id" => $produto->id,
-                "nome" => $produto->nome,
-                "preco" => $produto->preco,
-                "quantidade" => 1,
-                "imagem" => $produto->imagem
-            ];
+            if ($produto->estoque > 0) {
+                $cart[$id] = [
+                    "id" => $produto->id,
+                    "nome" => $produto->nome,
+                    "preco" => $produto->preco,
+                    "quantidade" => 1,
+                    "imagem" => $produto->imagem
+                ];
+            } else {
+                return back()->with('error', 'Este produto está fora de estoque.');
+            }
         }
 
         session()->put('cart', $cart);
         session()->put('cart_status', 'aberto');
 
-        // volta para a mesma página com mensagem de sucesso
         return back()->with('success', 'Produto adicionado ao carrinho!');
     }
 
@@ -51,10 +59,17 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $produto = Produto::findOrFail($id);
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantidade'] = max(1, (int) $request->quantidade);
+            $novaQuantidade = max(1, (int) $request->quantidade);
+
+            if ($novaQuantidade > $produto->estoque) {
+                return redirect()->route('cart.index')->with('error', 'Você não pode adicionar mais do que o estoque disponível.');
+            }
+
+            $cart[$id]['quantidade'] = $novaQuantidade;
             session()->put('cart', $cart);
         }
 

@@ -5,7 +5,6 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PedidoController; 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 Route::get('/produtos', [SearchController::class, 'index']);
@@ -100,9 +99,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('produtos', ProdutoController::class);
-//Route::resource('pedidos', PedidoController::class); // <-- Adicionei aqui
+Route::resource('pedidos', PedidosController::class); // <-- Adicionei aqui
 
-Route::get('/pedidos', [PedidosController::class, 'index'])->name('pedidos.index');
+//Route::get('/pedidos', [PedidosController::class, 'index'])->name('pedidos.index');
 
 
 Route::get('/carrinho', [CartController::class, 'index'])->name('cart.index');
@@ -111,6 +110,8 @@ Route::post('/carrinho/update/{id}', [CartController::class, 'update'])->name('c
 Route::post('/carrinho/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/carrinho/status', [CartController::class, 'changeStatus'])->name('cart.status');
 
+
+Route::post('/checkout',[PedidosController::class, 'index'])->name('pedidos');
 
 Route::get('/clicked', function () {
     return '<h1>Hello World</h1>';
