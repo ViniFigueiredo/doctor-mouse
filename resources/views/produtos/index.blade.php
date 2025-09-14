@@ -43,9 +43,13 @@
                 <span class="text-primary font-bold">R$ {{ number_format($produto->preco, 2, ',', '.') }}</span>
                 <span class="text-gray-500 text-sm mb-2">Estoque: {{ $produto->estoque }}</span>
                 <span class="text-gray-600 text-sm">Categoria: {{ $produto->categoria }}</span>
-                <a href="{{ route('produtos.show', $produto->id) }}" class="mt-auto bg-primary hover:bg-purple-800 text-white py-2 rounded text-center font-bold transition">
-                    Ver Produto
-                </a>
+                <form action="{{ route('cart.add', $produto->id) }}" method="POST" class="mt-auto">
+                @csrf
+                <button type="submit" class="w-full bg-primary hover:bg-purple-800 text-white py-2 rounded text-center font-bold transition">
+                    Adicionar ao carrinho
+                </button>
+            </form>
+
             </div>
         @empty
             <p class="col-span-full text-center text-gray-500">Nenhum produto encontrado.</p>
