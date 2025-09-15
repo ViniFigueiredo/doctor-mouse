@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutoController;
@@ -111,7 +112,24 @@ Route::post('/carrinho/remove/{id}', [CartController::class, 'remove'])->name('c
 Route::post('/carrinho/status', [CartController::class, 'changeStatus'])->name('cart.status');
 
 
-Route::post('/checkout',[PedidosController::class, 'index'])->name('pedidos');
+Route::middleware('auth')->group(function () {
+    // Endereço
+    Route::get('/checkout/endereco', [CheckoutController::class, 'endereco'])->name('checkout.endereco');
+    Route::post('/checkout/endereco', [CheckoutController::class, 'salvarEndereco'])->name('checkout.salvarEndereco');
+
+    // Pagamento
+    Route::get('/checkout/pagamento', [CheckoutController::class, 'pagamento'])->name('checkout.pagamento');
+    Route::post('/checkout/pagamento', [CheckoutController::class, 'salvarPagamento'])->name('checkout.salvarPagamento');
+
+    // Conclusão
+    Route::get('/checkout/concluido', [CheckoutController::class, 'confirmacao'])->name('checkout.concluido');
+    Route::post('/checkout/concluido', [CheckoutController::class, 'finalizar'])->name('checkout.finalizar');
+});
+
+
+
+
+Route::post('/pedidos',[PedidosController::class, 'index'])->name('pedidos');
 
 Route::get('/clicked', function () {
     return '<h1>Hello World</h1>';

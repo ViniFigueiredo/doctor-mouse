@@ -94,13 +94,11 @@
             <span>R$ {{ number_format(collect($cart)->sum(fn($item) => $item['preco'] * $item['quantidade']), 2, ',', '.') }}</span>
         </div>
         
-        <form action="{{ route('pedidos') }}" method="POST" class="w-full">
-    @csrf
-    <button type="submit" 
-        class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-3 rounded transition">
-        Finalizar Compra
-    </button>
-</form>
+        <a href="{{ route('checkout.endereco') }}" 
+            class="bg-primary text-white px-4 py-2 rounded inline-block text-center">
+            Finalizar Compra
+        </a>
+
     </div>
 </div>
 @endsection
