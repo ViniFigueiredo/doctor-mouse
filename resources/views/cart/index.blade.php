@@ -3,7 +3,6 @@
 @section('contents')
 <div class="container mx-auto py-6 flex flex-col lg:flex-row gap-6">
 
-    {{-- Lista de produtos --}}
     <div class="flex-1 space-y-4">
         {{-- Link para voltar às compras --}}
         <div class="mb-2">
@@ -12,12 +11,9 @@
             </a>
         </div>
 
-        {{-- Título com ícone e contador --}}
         <div class="flex items-center gap-2 mb-4">
-            {{-- Ícone de carrinho --}}
             <span class="fa fa-shopping-cart text-black"></span>
             
-            {{-- Texto e contador --}}
             <h1 class="text-2xl font-bold text-green-600">
                 Meu Carrinho 
                 <span>
@@ -26,14 +22,12 @@
             </h1>
         </div>
 
-        {{-- Mensagem de sucesso --}}
 @if(session('success'))
     <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
         {{ session('success') }}
     </div>
 @endif
 
-{{-- Mensagem de erro --}}
 @if(session('error'))
     <div class="bg-red-100 text-red-800 p-3 rounded mb-4">
         {{ session('error') }}
