@@ -56,11 +56,9 @@ $pedido = Pedido::create([
 
             $produto->decrement('estoque', $item['quantidade']);
         }
-
-        session()->forget('cart');
     });
 
-    return redirect()->route('pedidos.index')
+    return redirect()->route('checkout.concluido')
         ->with('success', 'Pedido realizado com sucesso!');
 }
 

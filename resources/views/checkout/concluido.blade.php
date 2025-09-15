@@ -29,11 +29,13 @@
         <div class="mb-4">
             <h3 class="font-semibold text-lg mb-2">Itens do Pedido</h3>
             <ul class="divide-y">
-                @foreach($itens as $item)
+                @php $total = 0; @endphp
+                @foreach($cart as $item)
                     <li class="py-2 flex justify-between">
-                        <span>{{ $item->produto->nome }} (x{{ $item->quantidade }})</span>
-                        <span>R$ {{ number_format($item->preco * $item->quantidade, 2, ',', '.') }}</span>
+                        <span>{{ $item['nome'] }} (x{{ $item['quantidade'] }})</span>
+                        <span>R$ {{ number_format($item['preco'] * $item['quantidade'], 2, ',', '.') }}</span>
                     </li>
+                    @php $total += $item['preco'] * $item['quantidade']; @endphp
                 @endforeach
             </ul>
         </div>
@@ -43,7 +45,12 @@
         </div>
     </div>
 
-    <div class="text-center">
+    <div class="text-center flex justify-center gap-4">
+        <a href="{{ route('pedidos.index') }}" 
+           class="bg-primary text-white px-6 py-3 rounded font-bold hover:bg-purple-800 transition">
+            Ver meus pedidos
+        </a>
+
         <a href="{{ route('dashboard') }}" 
            class="bg-primary text-white px-6 py-3 rounded font-bold hover:bg-purple-800 transition">
             Voltar para Home

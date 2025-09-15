@@ -61,11 +61,7 @@ class CheckoutController extends Controller
         $cart = session()->get('cart', []);
         $endereco = session()->get('checkout.endereco');
         $pagamento = session()->get('checkout.pagamento');
-
-        if (empty($cart) || empty($endereco) || empty($pagamento)) {
-            return redirect()->route('checkout.endereco')->with('error', 'Finalize todas as etapas do checkout.');
-        }
-
+        session()->forget('cart');
         return view('checkout.concluido', compact('cart', 'endereco', 'pagamento'));
     }
 }

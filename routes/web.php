@@ -118,9 +118,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout/pagamento', [CheckoutController::class, 'pagamento'])->name('checkout.pagamento');
     Route::post('/checkout/pagamento', [CheckoutController::class, 'salvarPagamento'])->name('checkout.salvarPagamento');
     Route::post('/checkout/finalizar', [PedidosController::class, 'store'])->name('checkout.finalizar');    
-    Route::get('/checkout/concluido', function(){
-        return view('checkout.concluido');
-    });
+    Route::get('/checkout/concluido', [CheckoutController::class, 'revisao'])->name('checkout.concluido');
 });
 
 
