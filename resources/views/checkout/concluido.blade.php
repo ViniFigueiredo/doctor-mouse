@@ -3,58 +3,83 @@
 @section('title', 'Compra Concluída')
 
 @section('contents')
-<div class="container mx-auto py-6">
-    <h1 class="text-3xl font-bold text-primary mb-4 text-center">Compra Concluída!</h1>
-    <p class="text-lg text-gray-600 mb-6 text-center">Obrigado por comprar na Doctor Mouse.</p>
+<div class="min-h-screen bg-gray-50 flex flex-col">
 
-    <div class="max-w-2xl mx-auto bg-white shadow rounded-2xl p-6 mb-6">
-        <h2 class="text-xl font-bold mb-4">Detalhes do Pedido</h2>
+    {{-- Voltar --}}
+    <div class="px-6 py-4">
+        <a href="{{ route('checkout.pagamento') }}" class="flex items-center text-gray-700 hover:text-purple-700 font-medium">
+            ← Voltar
+        </a>
+    </div>
 
-        <div class="mb-4">
-            <h3 class="font-semibold text-lg mb-1">Endereço de Entrega</h3>
-            <p>{{ $endereco['rua'] }}, {{ $endereco['numero'] }}</p>
-            <p>{{ $endereco['cidade'] }} - {{ $endereco['estado'] }}</p>
-            <p>CEP: {{ $endereco['cep'] }}</p>
+    {{-- Steps --}}
+    <div class="flex justify-center items-center space-x-8 mb-8">
+        {{-- Step Localização concluído --}}
+        <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white shadow-md">
+                📍
+            </div>
         </div>
+        <div class="w-16 h-1 bg-purple-400"></div>
 
-        <div class="mb-4">
-            <h3 class="font-semibold text-lg mb-1">Pagamento</h3>
-            @if(!empty($pagamento))
-                <p>Método: {{ $pagamento['metodo'] ?? 'Pagamento registrado' }}</p>
-            @else
-                <p>Pagamento confirmado</p>
-            @endif
+        {{-- Step Pagamento concluído --}}
+        <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white shadow-md">
+                💳
+            </div>
         </div>
+        <div class="w-16 h-1 bg-purple-400"></div>
 
-        <div class="mb-4">
-            <h3 class="font-semibold text-lg mb-2">Itens do Pedido</h3>
-            <ul class="divide-y">
-                @php $total = 0; @endphp
-                @foreach($cart as $item)
-                    <li class="py-2 flex justify-between">
-                        <span>{{ $item['nome'] }} (x{{ $item['quantidade'] }})</span>
-                        <span>R$ {{ number_format($item['preco'] * $item['quantidade'], 2, ',', '.') }}</span>
-                    </li>
-                    @php $total += $item['preco'] * $item['quantidade']; @endphp
-                @endforeach
-            </ul>
-        </div>
-
-        <div class="text-right font-bold text-lg">
-            Total: R$ {{ number_format($total, 2, ',', '.') }}
+        {{-- Step Confirmação ativo --}}
+        <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white shadow-md">
+                ✔️
+            </div>
         </div>
     </div>
 
-    <div class="text-center flex justify-center gap-4">
-        <a href="{{ route('pedidos.index') }}" 
-           class="bg-primary text-white px-6 py-3 rounded font-bold hover:bg-purple-800 transition">
-            Ver meus pedidos
-        </a>
+    {{-- Caixa de Confirmação --}}
+    <div class="flex justify-center">
+        <div class="bg-white shadow-md rounded-xl p-8 w-[600px] border text-center">
+            
+            {{-- Título --}}
+            <h2 class="text-xl font-bold text-green-700 flex items-center justify-center mb-4 space-x-2">
+                <span>✔️</span>
+                <span>Pedido Confirmado</span>
+            </h2>
 
-        <a href="{{ route('dashboard') }}" 
-           class="bg-primary text-white px-6 py-3 rounded font-bold hover:bg-purple-800 transition">
-            Voltar para Home
-        </a>
+            <p class="text-lg font-semibold mb-1">Compra Realizada com Sucesso!</p>
+            <p class="text-sm text-gray-600 mb-6">Pedido #{{ $pedido['codigo'] ?? '000000' }}</p>
+
+            {{-- Código PIX --}}
+            <div class="border rounded-lg p-4 mb-6 text-left">
+                <label class="block font-semibold text-sm mb-1">Código do PIX para Pagamento:</label>
+                <input type="text" readonly 
+                       value="{{ $pedido['pix'] ?? 'Pix1755879686786786NHTY' }}"
+                       class="w-full p-2 border rounded bg-gray-50 text-sm font-mono">
+                <p class="text-xs text-gray-600 mt-2">
+                    Use este código no app do banco ou copie para efetuar o pagamento.
+                </p>
+            </div>
+
+            {{-- Aviso --}}
+            <p class="text-sm text-gray-600 mb-6">
+                Aguardamos a confirmação do pagamento. Você receberá um e-mail de confirmação em breve.
+            </p>
+
+            {{-- Botões --}}
+            <div class="flex justify-center gap-4">
+                <a href="{{ route('pedidos.index') }}" 
+                   class="bg-white border px-6 py-2 rounded font-bold text-gray-800 hover:bg-gray-100 transition">
+                    Ver Meus Pedidos
+                </a>
+
+                <a href="{{ route('dashboard') }}" 
+                   class="bg-purple-600 text-white px-6 py-2 rounded font-bold hover:bg-purple-800 transition">
+                    Continuar Comprando
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
