@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\ProfileController;
@@ -55,29 +56,15 @@ Route::get('/register', function () {
     return view('register');
 })->middleware(['auth', 'verified'])->name('register');
 
-Route::get('/recuperar-senha', function () {
-    return view('recuperar-senha');
-});
+// Password Recovery Routes
+Route::get('/recuperar-senha', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/recuperar-senha', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
 
 Route::get('/cart', function () {
     return view('cart.cart'); // <-- pasta.cart
 })->name('cart');
-
-
-// Rota POST para processar envio do e-mail de recuperação
-Route::post('/recuperar-senha', function (\Illuminate\Http\Request $request) {
-    return redirect('/reset-password')->with('status', 'E-mail de recuperação enviado!');
-});
-
-// Rota para tela de redefinição de senha
-Route::get('/reset-password/{token}', function ($token) {
-    return view('reset-password', ['token' => $token]);
-})->name('password.reset');
-
-// Rota para mostrar tela de reset-password sem token
-Route::get('/reset-password', function () {
-    return view('reset-password', ['token' => '']);
-});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
