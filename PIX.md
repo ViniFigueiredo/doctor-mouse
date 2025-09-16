@@ -2,6 +2,10 @@
 
 Criar uma conta no ngrok, baixar e logar pela linha de comando
 
+Instalar dependências npm:
+
+npm i
+
 Rodar o site com:
 
 composer run dev
