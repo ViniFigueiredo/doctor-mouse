@@ -32,6 +32,7 @@ class ProdutoController extends Controller
             'descricao' => 'nullable|string',
             'preco' => 'required|numeric|min:0',
             'estoque' => 'required|integer|min:0',
+            'categoria' => 'required|string|in:Mouse,MousePad,Teclado',
             'imagem' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
@@ -44,6 +45,7 @@ class ProdutoController extends Controller
         $produto->descricao = $request->descricao;
         $produto->preco = $request->preco;
         $produto->estoque = $request->estoque;
+        $produto->categoria = $request->categoria;
         $produto->imagem = $file_name;
 
         $produto->save();
@@ -68,6 +70,7 @@ class ProdutoController extends Controller
             'descricao' => 'nullable|string',
             'preco' => 'required|numeric|min:0',
             'estoque' => 'required|integer|min:0',
+            'categoria' => 'required|string|in:Mouse,MousePad,Teclado',
             'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
@@ -89,6 +92,7 @@ class ProdutoController extends Controller
         $produto->descricao = $request->descricao;
         $produto->preco = $request->preco;
         $produto->estoque = $request->estoque;
+        $produto->categoria = $request->categoria;
         
         $produto->save();
 

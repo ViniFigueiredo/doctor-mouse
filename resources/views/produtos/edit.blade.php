@@ -141,6 +141,27 @@
                 @enderror
             </div>
 
+            <!-- Categoria -->
+            <div>
+                <label for="categoria" class="block text-sm font-medium text-gray-700 mb-2">
+                    Categoria <span class="text-red-500">*</span>
+                </label>
+                <select 
+                    id="categoria" 
+                    name="categoria" 
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('categoria') border-red-500 @enderror"
+                >
+                    <option value="">Selecione uma categoria</option>
+                    <option value="Mouse" {{ old('categoria', $produto->categoria) == 'Mouse' ? 'selected' : '' }}>Mouse</option>
+                    <option value="MousePad" {{ old('categoria', $produto->categoria) == 'MousePad' ? 'selected' : '' }}>MousePad</option>
+                    <option value="Teclado" {{ old('categoria', $produto->categoria) == 'Teclado' ? 'selected' : '' }}>Teclado</option>
+                </select>
+                @error('categoria')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Preço -->
             <div>
                 <label for="preco" class="block text-sm font-medium text-gray-700 mb-2">
