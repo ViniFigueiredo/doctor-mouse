@@ -39,8 +39,7 @@
             @foreach($cart as $item)
                 <div class="flex gap-4 p-4 bg-white rounded-2xl shadow hover:shadow-md transition">
                     {{-- Imagem do produto --}}
-                    <img src="{{ $item['imagem'] ?? '/images/produto-placeholder.png' }}" 
-                         alt="{{ $item['nome'] }}" 
+                    <img src="{{ asset('images/' . $item['imagem']) }}" alt="{{ $item['nome'] }}" 
                          class="w-24 h-24 object-cover rounded-lg border">
 
                     {{-- Detalhes do produto --}}

@@ -62,7 +62,7 @@
                 <span class="text-gray-600 text-sm">Categoria: {{ $produto->categoria }}</span>
                 @if(!auth()->check())
     {{-- Usuário não logado --}}
-    <a href="{{ route('signin') }}" 
+    <a target="_self" href="{{ route('signin') }}" 
        class="w-full bg-primary hover:bg-purple-800 text-white py-2 rounded text-center font-bold transition">
         Adicionar ao carrinho
     </a>

@@ -50,10 +50,7 @@
             </div>
 
             <div class="mt-3 text-right">
-                <a href="{{ route('pedidos.show', $pedido->id) }}" 
-                   class="text-primary hover:underline font-semibold">
-                    Ver detalhes
-                </a>
+                
             </div>
         </div>
     @empty
