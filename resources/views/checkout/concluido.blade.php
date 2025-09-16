@@ -51,22 +51,6 @@
             <p class="text-lg font-semibold mb-1">Compra Realizada com Sucesso!</p>
             <p class="text-sm text-gray-600 mb-6">Pedido #{{ $pedido['codigo'] ?? '000000' }}</p>
 
-            {{-- Código PIX --}}
-            <div class="border rounded-lg p-4 mb-6 text-left">
-                <label class="block font-semibold text-sm mb-1">Código do PIX para Pagamento:</label>
-                <input type="text" readonly 
-                       value="{{ $pedido['pix'] ?? 'Pix1755879686786786NHTY' }}"
-                       class="w-full p-2 border rounded bg-gray-50 text-sm font-mono">
-                <p class="text-xs text-gray-600 mt-2">
-                    Use este código no app do banco ou copie para efetuar o pagamento.
-                </p>
-            </div>
-
-            {{-- Aviso --}}
-            <p class="text-sm text-gray-600 mb-6">
-                Aguardamos a confirmação do pagamento. Você receberá um e-mail de confirmação em breve.
-            </p>
-
             {{-- Botões --}}
             <div class="flex justify-center gap-4">
                 <a href="{{ route('pedidos.index') }}" 

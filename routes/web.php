@@ -119,11 +119,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout/pagamento', [CheckoutController::class, 'salvarPagamento'])->name('checkout.salvarPagamento');
     Route::post('/checkout/finalizar', [PedidosController::class, 'store'])->name('checkout.finalizar');    
     Route::get('/checkout/concluido', [CheckoutController::class, 'revisao'])->name('checkout.concluido');
+    Route::get('/checkout/payment-status', [CheckoutController::class, 'pagamentoStreamedStatus'])->name('checkout.payment-status');
 });
 
+// Payment confirmation route (accessible without auth for QR code scanning)
+Route::get('/pagar/{sessionId}', [CheckoutController::class, 'pagar'])->name('payment.confirm');
 
-
-
+// Debug route to check session information
+Route::get('/debug-session', [CheckoutController::class, 'debugSession'])->name('debug.session');
 
 Route::post('/pedidos',[PedidosController::class, 'index'])->name('pedidos');
 
