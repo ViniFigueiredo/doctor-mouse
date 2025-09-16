@@ -12,12 +12,25 @@ class PedidosController extends Controller
 {
     public function index()
     {
-        $pedidos = Pedido::where('user_id', Auth::id())
-                        ->with('itens.produto') 
-                        ->orderBy('created_at', 'desc')
-                        ->get();
+        $user = Auth::user();
+        
+        // Check if user is admin
+        if ($user && $user->role === 'admin') {
+            // Admin sees all orders
+            $pedidos = Pedido::with(['itens.produto', 'user'])
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+            $isAdmin = true;
+        } else {
+            // Regular user sees only their orders
+            $pedidos = Pedido::where('user_id', Auth::id())
+                            ->with('itens.produto') 
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+            $isAdmin = false;
+        }
 
-        return view('pedidos.index', compact('pedidos'));
+        return view('pedidos.index', compact('pedidos', 'isAdmin'));
     }
 
     public function store(Request $request)
