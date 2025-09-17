@@ -15,22 +15,23 @@
 
         {{-- LINKS DO MENU --}}
         <div class="flex-1 flex items-center justify-center space-x-10 font-medium whitespace-nowrap">
-            <a href="/" 
-               class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs('dashboard.index') || request()->routeIs('dashboard') ? 'border-b-2' : '' }}">
-                Home
-            </a>
-            <a href="{{ route('produtos.index') }}" 
-               class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs('produtos.index') ? 'border-b-2' : '' }}">
-                Produtos
-            </a>
+        <a href="/" 
+       class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs('dashboard.index') || request()->routeIs('dashboard') ? 'border-b-2' : '' }}">
+        Home
+        </a>
+        <a href="{{ route('produtos.index') }}" 
+       class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs('produtos.index') ? 'border-b-2' : '' }}">
+        Produtos
+    </a>
 
-            @if(Auth::check() && Auth::user()->role === 'admin')
-                <a href="{{ route('admin.dashboard') }}" 
-                   class="flex items-center gap-1 border-primary pb-1 {{ Route::is('/admin') ? 'border-b-2' : '' }}">
-                    Dashboard Admin
-                </a>
-            @endif
-        </div>
+    @if(Auth::check() && Auth::user()->role === 'admin')
+        <a href="{{ route('admin.dashboard') }}" 
+           class="text-gray-800 hover:text-primary transition border-primary {{ request()->routeIs('admin.dashboard') ? 'border-b-2' : '' }}">
+            Dashboard Admin
+        </a>
+    @endif
+</div>
+
 
         {{-- LADO DIREITO (CARRINHO + USUÁRIO) --}}
         <div class="flex items-center gap-4 ml-auto">

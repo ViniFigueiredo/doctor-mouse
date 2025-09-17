@@ -40,7 +40,7 @@
                             <i class="fas fa-user text-gray-400"></i>
                         </div>
                         <input type="email" id="email" name="email" value="{{ old('email') }}" 
-                               placeholder="admin@gmail.com" required
+                               placeholder="usuario@email.com" required
                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary">
                     </div>
                 </div>
@@ -51,8 +51,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-lock text-gray-400"></i>
                         </div>
-                        <input type="password" id="password" name="password" 
-                               placeholder="admin123" required
+                        <input type="password" id="password" name="password" required
                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary">
                     </div>
                 </div>

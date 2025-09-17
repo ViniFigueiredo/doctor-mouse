@@ -4,7 +4,6 @@
 
 @section('contents')
 <div class="max-w-4xl mx-auto px-4 py-8">
-    <!-- Header with navigation -->
     <div class="mb-6">
         <nav class="flex items-center space-x-2 text-sm text-gray-500 mb-4">
             <a href="{{ route('produtos.index') }}" class="hover:text-blue-600 transition-colors duration-200">
@@ -23,8 +22,8 @@
                     </span>
                 @endif
             </div>
-            
-            <!-- Action buttons -->
+
+            @if(auth()->check() && auth()->user()->role === 'admin')
             <div class="flex space-x-3">
                 <a 
                     href="{{ route('produtos.edit', $produto) }}" 
@@ -50,22 +49,21 @@
                     </button>
                 </form>
             </div>
+            @endif
         </div>
     </div>
 
-    <!-- Main content -->
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
-            <!-- Product Image -->
-            <div class="aspect-square">
+            <div class="aspect-square p-4 bg-gray-50 rounded-xl flex items-center justify-center">
                 @if($produto->imagem)
                     <img 
-                        src="{{ asset('images/' . $produto->imagem) }}" 
+                        src="{{ asset($produto->imagem) }}" 
                         alt="{{ $produto->nome }}"
-                        class="w-full h-full object-cover rounded-lg shadow-sm"
+                        class="w-full h-full object-contain rounded-lg shadow-sm"
                     >
                 @else
-                    <div class="w-full h-full bg-gray-200 rounded-lg flex items-center justify-center">
+                    <div class="w-full h-full flex items-center justify-center">
                         <div class="text-center">
                             <svg class="mx-auto h-24 w-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -76,9 +74,7 @@
                 @endif
             </div>
 
-            <!-- Product Details -->
             <div class="space-y-6">
-                <!-- Price -->
                 <div>
                     <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Preço</h2>
                     <p class="mt-1 text-4xl font-bold text-green-600">
@@ -86,7 +82,6 @@
                     </p>
                 </div>
 
-                <!-- Stock -->
                 <div>
                     <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Estoque</h2>
                     <div class="mt-1 flex items-center">
@@ -104,7 +99,6 @@
                     </div>
                 </div>
 
-                <!-- Description -->
                 @if($produto->descricao)
                     <div>
                         <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Descrição</h2>
@@ -114,7 +108,7 @@
                     </div>
                 @endif
 
-                <!-- Product Info -->
+                @if(auth()->check() && auth()->user()->role === 'admin')
                 <div class="border-t border-gray-200 pt-6">
                     <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">Informações do Produto</h2>
                     <dl class="space-y-3">
@@ -138,11 +132,18 @@
                         </div>
                     </dl>
                 </div>
+                @endif
+
+                <form action="{{ route('cart.add', $produto) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="w-full bg-purple-600 text-white font-semibold py-3 rounded-xl shadow hover:bg-purple-700 transition">
+                        Adicionar ao Carrinho
+                    </button>
+                </form>
             </div>
         </div>
     </div>
     
-    <!-- Back button -->
     <div class="mt-6">
         <a 
             href="{{ route('produtos.index') }}" 

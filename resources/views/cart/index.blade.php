@@ -12,7 +12,6 @@
             Revise seus itens antes de finalizar a compra
         </p>    
 
-        <!-- Status Messages -->
         @if(session('success'))
             <div class="mb-6 max-w-2xl mx-auto p-4 bg-green-50 border border-green-200 text-green-700 rounded-md">
                 <div class="flex items-center">
@@ -36,7 +35,6 @@
         @endif
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Cart Items -->
             <div class="lg:col-span-2">
                 @if(count($cart) > 0)
                     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
@@ -53,7 +51,8 @@
                                     <div class="flex gap-4">
                                         {{-- Product Image --}}
                                         <div class="flex-shrink-0">
-                                            <img src="{{ asset('images/' . $item['imagem']) }}" alt="{{ $item['nome'] }}" 
+                                            <img src="{{ asset($item['imagem'])}}" 
+                                                 alt="{{ $item['nome'] }}" 
                                                  class="w-20 h-20 object-cover rounded-lg border border-gray-200">
                                         </div>
 
@@ -89,27 +88,46 @@
 
                                             {{-- Quantity and Actions --}}
                                             <div class="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
-                                                {{-- Update Quantity --}}
-                                                <form action="{{ route('cart.update', $item['id']) }}" method="POST" class="flex items-center gap-3">
+                                                <form id="form-update-{{ $item['id'] }}" action="{{ route('cart.update', $item['id']) }}" method="POST" class="flex items-center gap-3">
                                                     @csrf
                                                     <label for="quantidade_{{ $item['id'] }}" class="text-sm font-medium text-gray-700">Quantidade:</label>
-                                                    <input type="number" 
-                                                           id="quantidade_{{ $item['id'] }}"
-                                                           name="quantidade" 
-                                                           value="{{ $item['quantidade'] }}" 
-                                                           min="1" 
-                                                           class="w-16 px-2 py-1 border border-gray-300 rounded-md text-center focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
-                                                    <button type="submit" class="text-sm text-purple-600 hover:text-purple-500 font-medium transition-colors duration-200">
+
+                                                    <div class="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                                                        <!-- botão diminuir -->
+                                                        <button type="button"
+                                                                onclick="(function(){ const el = document.getElementById('quantidade_{{ $item['id'] }}'); el.stepDown(); })()"
+                                                                class="px-4 py-2 bg-gray-100 text-gray-700 text-2xl leading-none font-bold hover:bg-gray-200">
+                                                            −
+                                                        </button>
+
+                                                        <input
+                                                            type="number"
+                                                            id="quantidade_{{ $item['id'] }}"
+                                                            name="quantidade"
+                                                            value="{{ $item['quantidade'] }}"
+                                                            min="1"
+                                                            class="w-20 text-center border-0 focus:ring-0 focus:outline-none text-lg font-semibold"
+                                                        >
+
+                                                        <!-- botão aumentar -->
+                                                        <button type="button"
+                                                                onclick="(function(){ const el = document.getElementById('quantidade_{{ $item['id'] }}'); el.stepUp(); })()"
+                                                                class="px-4 py-2 bg-gray-100 text-gray-700 text-2xl leading-none font-bold hover:bg-gray-200">
+                                                            +
+                                                        </button>
+                                                    </div>
+
+                                                    <button type="submit" class="ml-2 text-sm text-purple-600 hover:text-purple-500 font-medium transition-colors duration-200">
                                                         Atualizar
                                                     </button>
                                                 </form>
 
-                                                {{-- Remove Item --}}
                                                 <form action="{{ route('cart.remove', $item['id']) }}" method="POST">
                                                     @csrf
                                                     <button type="submit" class="text-sm text-red-600 hover:text-red-500 font-medium transition-colors duration-200 flex items-center">
                                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                                         </svg>
                                                         Remover
                                                     </button>
@@ -122,7 +140,6 @@
                         </div>
                     </div>
                 @else
-                    <!-- Empty Cart State -->
                     <div class="bg-white shadow-md rounded-lg p-12 text-center">
                         <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
@@ -131,10 +148,7 @@
                         <p class="text-gray-500 mb-6">
                             Adicione alguns produtos incríveis ao seu carrinho para começar!
                         </p>
-                        <a 
-                            href="{{ route('produtos.search') }}" 
-                            class="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200"
-                        >
+                        <a href="{{ route('produtos.search') }}" class="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors duration-200">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                             </svg>
@@ -144,7 +158,6 @@
                 @endif
             </div>
 
-            <!-- Order Summary -->
             @if(count($cart) > 0)
                 <div class="lg:col-span-1">
                     <div class="bg-white shadow-md rounded-lg p-6 sticky top-8">
@@ -172,8 +185,7 @@
                             </div>
                         </div>
                         
-                        <a href="{{ route('checkout.endereco') }}" 
-                           class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200">
+                        <a href="{{ route('checkout.endereco') }}" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors duration-200">
                             Finalizar Compra
                         </a>
 
